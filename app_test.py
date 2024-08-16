@@ -1,10 +1,4 @@
 
-
-
-
-#gdown --folder 1A8A9lhcUXUKRrtCe7rckMlQtgmfLZRQH
-
-
 from pw_safe import HuggingFace
 import os
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
@@ -21,7 +15,8 @@ llm = HuggingFaceEndpoint(repo_id=hf_model)
 
 # embeddings
 embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
-embeddings_folder = "/content/"
+embeddings_folder = "cache/"
+os.makedirs(embeddings_folder, exist_ok=True)
 
 embeddings = HuggingFaceEmbeddings(model_name=embedding_model,
                                    cache_folder=embeddings_folder)
