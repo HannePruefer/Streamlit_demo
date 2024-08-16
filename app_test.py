@@ -34,7 +34,7 @@ embeddings = HuggingFaceEmbeddings(model_name=embedding_model,
                                    cache_folder=embeddings_folder)
 
 # Create a FAISS index from the embeddings
-vector_db = FAISS.from_embeddings(document_embeddings)
+vector_db = FAISS.from_documents(docs, embeddings)
 
 # retriever
 retriever = vector_db.as_retriever(search_kwargs={"k": 2})
