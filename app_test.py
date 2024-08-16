@@ -6,6 +6,9 @@ from langchain.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
+
+from langchain.document_loaders import TextLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 import streamlit as st
 
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = HuggingFace
@@ -13,6 +16,15 @@ os.environ["HUGGINGFACEHUB_API_TOKEN"] = HuggingFace
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
 llm = HuggingFaceEndpoint(repo_id=hf_model)
 
+
+loader = TextLoader('alice_in_wonderland.txt', encoding =" UTF-8")
+documents = loader.load()
+
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=800,
+                                               chunk_overlap=150)
+
+docs = text_splitter.split_documents(documents)
 # embeddings
 embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
 embeddings_folder = "cache/"
@@ -23,12 +35,6 @@ embeddings = HuggingFaceEmbeddings(model_name=embedding_model,
 
 # Create a FAISS index from the embeddings
 vector_db = FAISS.from_embeddings(document_embeddings)
-
-# Save the FAISS index to disk
-vector_db.save_local("faiss_index")
-# load Vector Database
-# allow_dangerous_deserialization is needed. Pickle files can be modified to deliver a malicious payload that results in execution of arbitrary code on your machine
-vector_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
 
 # retriever
 retriever = vector_db.as_retriever(search_kwargs={"k": 2})
