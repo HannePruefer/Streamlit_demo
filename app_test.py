@@ -1,3 +1,13 @@
+%%bash
+pip install -qqq -U langchain-huggingface
+pip install -qqq -U langchain
+pip install -qqq -U langchain-community
+pip install -qqq -U faiss-cpu
+
+# download saved vector database for Alice's Adventures in Wonderland
+gdown --folder 1A8A9lhcUXUKRrtCe7rckMlQtgmfLZRQH
+
+
 from pw_safe import HuggingFace
 import os
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
