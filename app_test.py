@@ -1,5 +1,5 @@
 from pw_safe import HuggingFace
-
+import os
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
@@ -7,6 +7,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 import streamlit as st
 
+os.environ["HUGGINGFACEHUB_API_TOKEN"] = HuggingFace
 # llm
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
 llm = HuggingFaceEndpoint(repo_id=hf_model)
